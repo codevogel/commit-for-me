@@ -1,0 +1,8 @@
+<__GIT_DIFF__>
+LINE_1
+<__VAR1__>
+LINE2
+<__VAR2__>
+LINE3
+<__VAR3__>
+<__INSTRUCTIONS__>

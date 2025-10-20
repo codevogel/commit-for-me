@@ -1,0 +1,10 @@
+vars:
+  - template_string: "<__VAR1__>"
+    value: "VAL1"
+  - template_string: "<__VAR2__>"
+    value: "VAL2"
+  - template_string: "<__VAR3__>"
+    value: "VAL3"
+  - template_string: "<__INSTRUCTIONS__>"
+    value: "SAMPLE_INSTRUCTIONS_FROM_FILE"
+

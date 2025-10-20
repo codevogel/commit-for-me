@@ -1,0 +1,8 @@
+# Below is the generated commit message. Alter as needed.
+# Be sure to review the body and footer if present.
+# If you want to commit with this message, save this file and exit your editor.
+# If you want to cancel the commit, exit without saving, or save as an empty file.
+#
+# Staged changes:
+# SAMPLE_DIFF
+1 entry header

@@ -1,0 +1,15 @@
+commitMessages:
+  - header: "1 entry header"
+    score: 1
+  - header: "2 entry header"
+    body: "2 entry body"
+    footer: "2 entry footer"
+    score: 2
+  - header: "3 entry header"
+    score: 3
+  - header: "4 entry header"
+    body: "4 entry body"
+    footer: "4 entry footer"
+    score: 4
+  - header: "5 entry header"
+    score: 5

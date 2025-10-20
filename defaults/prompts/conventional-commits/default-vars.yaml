@@ -1,0 +1,15 @@
+vars:
+  - template_string: "<__ALLOWED_TYPES__>"
+    value: |
+      values:
+        - feat
+        - fix
+        - docs
+        - style
+        - refactor
+        - perf
+        - test
+        - chore
+        - ci
+        - build
+        - revert

@@ -1,0 +1,74 @@
+name: cfme
+help: Commit For Me - Generate commit messages for staged files using aichat
+version: 0.1.0
+
+environment_variables:
+  - name: CFME_CONFIG_DIR
+    default: ${XDG_CONFIG_HOME:-$HOME/.config}/cfme
+    help: Directory to store configuration files for Commit For Me
+  - name: CFME_PROMPT_DIR
+    default: ${CFME_CONFIG_DIR}/prompts
+    help: Directory to store prompt files for Commit For Me
+  - name: CFME_PROMPT_TYPE
+    default: conventional-commits
+    help: The default subfolder to process prompts from.
+  - name: CFME_DEFAULT_PROMPT_FILE
+    default: ${CFME_PROMPT_DIR}/${CFME_PROMPT_TYPE}/default.md
+    help: Path to the default prompt file for generating commit messages (overridden by --file flag)
+  - name: CFME_DEFAULT_PROMPT_VARIABLES_FILE
+    default: ${CFME_PROMPT_DIR}/${CFME_PROMPT_TYPE}/default-vars.yaml
+    help: Path to the file containing prompt variables.
+  - name: CFME_SILENT_MODE
+    default: "false"
+    help: If set to true, suppresses all non-error output.
+  - name: CFME_DEFAULT_PROMPT_FILE_FETCH_URL
+    default: https://raw.githubusercontent.com/codevogel/commit-for-me/refs/heads/main/defaults/prompts/conventional-commits/default.md
+    help: URL used to fetch the default prompt file if it does not exist locally.
+    private: true
+  - name: CFME_DEFAULT_PROMPT_VARIABLES_FILE_FETCH_URL
+    default: https://raw.githubusercontent.com/codevogel/commit-for-me/refs/heads/main/defaults/prompts/conventional-commits/default-vars.yaml
+    help: URL used to fetch the default prompt variables file if it does not exist locally.
+    private: true
+
+flags:
+  - long: --instructions
+    short: -i
+    help: An optional brief set of instructions to pass the AI, to help the AI generate commit message candidates. Replaces template string <__INSTRUCTIONS__> in the prompt file.
+    arg: instructions
+  - long: --prompt-file
+    short: -p
+    arg: file_path
+    help: Overrides the default prompt by reading from a specified file.
+  - long: --variables-file
+    short: -v
+    arg: file_path
+    help: Overrides path for the prompt variables file (\$CFME_PROMPT_VARIABLES_FILE) by reading from a specified file.
+  - short: -r
+    long: --response
+    help: Prints the direct response from the AI, instead of prompting to review response and then committing. Used for piping the response into other tools.
+    conflicts: [--message]
+  - short: -m
+    long: --message
+    help: Prints the reviewed commit message instead of committing. Used for piping the reviewed message into other tools.
+    conflicts: [--response]
+  - short: -s
+    long: --silent
+    help: Suppresses all non-error output. Also possible through the \$CFME_SILENT_MODE environment variable.
+  - long: --print-parsed-prompt
+    help: Prints the parsed prompt after replacing template strings with variable values, then exits. Useful for debugging.
+
+examples: |
+  Generate, review, and commit using the defaults:
+    cfme
+  Ditto, overriding the <__INSTRUCTIONS__> template string: (useful for helping the AI figure out what msg to generate) 
+    cfme -i "Fix issue with user login"
+  Ditto, overriding the default prompt file:
+    cfme -p "./my-custom-prompt.md"
+  Ditto, overriding the default variables file:
+    cfme -v "./my-custom-variables.yaml"
+  Generate and review a commit message, but echo it instead of committing:
+    cfme -m
+  Generate a response to the prompt, then echo the raw response instead of reviewing and committing, suppressing all non-error output:
+    cfme -rs
+  Generates a raw response to the prompt, replacing the <__INSTRUCTIONS__> template string, using a custom prompt file and custom variables file, suppressing all non-error output:
+    cfme -si "<Instructions>" -p "./my-prompt.md" -v "./my-variables.yaml"
