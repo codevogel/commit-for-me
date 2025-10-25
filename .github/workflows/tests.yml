@@ -1,0 +1,53 @@
+name: Run tests
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+  # Run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1.213.0
+        with:
+          ruby-version: "3.3"
+      - name: Checkout Bashly
+        uses: actions/checkout@v4
+        with:
+          repository: "DannyBen/bashly"
+          ref: "dc240d269eef53bf763180922646bd13cd2875b3"
+          path: "bashly"
+
+      - name: Build Bashly
+        run: |
+          cd bashly
+          gem install bashly
+
+      - name: Install Shellspec
+        run: |
+          curl -fsSL https://git.io/shellspec | bash -s -- --yes
+
+      - name: Checkout cfme
+        uses: actions/checkout@v4
+        with:
+          repository: "codevogel/commit-for-me"
+
+      - name: Build cfme
+        run: |
+          bashly generate
+
+      - name: Run tests
+        run: |
+          shellspec --shell bash --warning-as-failure -f d
