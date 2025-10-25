@@ -59,6 +59,8 @@ Then
 ```bash
 rm release/cfme
 mv cfme release/cfme
+# Make sure the release script is not executable by default
+chmod -x release/cfme
 ```
 
 ## Testing Your Changes
