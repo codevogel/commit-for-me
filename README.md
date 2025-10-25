@@ -430,7 +430,7 @@ Just add the following custom command to your Lazygit config file
 ```yaml
 customCommands:
   - key: "<c-a>"
-    description: "generate commit message for staged files using ai-commits"
+    description: "generate message candidates and commit using cfme"
     command: "cfme"
     context: "files"
     loadingText: "Generating commit message with cfme..."
