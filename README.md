@@ -73,6 +73,7 @@ using AI, prompt you to review and edit it, then commit it for you.
 
 - [cfme](#cfme)
   - [Features ✨](#features-)
+  - [Demo 🎥](#demo-)
   - [Quick Start 🚀](#quick-start-)
   - [Usage](#usage)
     - [Examples](#examples)
