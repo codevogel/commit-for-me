@@ -416,6 +416,51 @@ CFME_DEFAULT_PROMPT_VARIABLES_FILE_FETCH_URL
           it does not exist locally.
 ```
 
+## Integration into other tools
+
+### Lazygit
+
+[Lazygit](https://github.com/jesseduffield/lazygit) is awesome.
+But `cfme` allows you to be even lazier! You can use `cfme`
+from within Lazygit's TUI to generate commit messages.
+
+Just add the following custom command to your Lazygit config file
+(e.g. `~/.config/lazygit/config.yml`):
+
+```yaml
+customCommands:
+  - key: "<c-a>"
+    description: "generate commit message for staged files using ai-commits"
+    command: "cfme"
+    context: "files"
+    loadingText: "Generating commit message with cfme..."
+    subprocess: true
+```
+
+And now, use lazygit to stage your changes, then just press `Ctrl+a`
+to run `cfme` and generate a commit message for the staged changes!
+
+### Other tools
+
+As `cfme` is just a bash script, you can easily integrate it into
+other tools and workflows.
+Have a look at the [Lazygit](#lazygit) section above for an example
+of how to do this.
+
+The `-r` and `-m` flags are especially interesting for integration
+into other tools, as they allow you to pipe the AI-generated
+response or the reviewed commit message into other tools, instead
+of committing it directly.
+
+The `-p` and `-v` flags allow you to specify custom prompt
+and variables files, which is useful if you want to have
+different prompts for different workflows.
+
+I'm sure you can come up with many more use cases!
+If you ever get stuck integrating `cfme` into your workflow,
+or if you need an additional feature to make the integration easier,
+feel free to ask for help. Just open up an issue!
+
 ## Contributing
 
 If you would like to contribute to this project, you're more than welcome
