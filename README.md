@@ -81,6 +81,9 @@ using AI, prompt you to review and edit it, then commit it for you.
     - [Writing a custom prompt file](#writing-a-custom-prompt-file)
     - [Writing a variables file](#writing-a-variables-file)
     - [Environment Variables](#environment-variables)
+  - [Integration into other tools](#integration-into-other-tools)
+    - [Lazygit](#lazygit)
+    - [Other tools](#other-tools)
   - [Contributing](#contributing)
   - [License](#license)
 
