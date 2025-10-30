@@ -1,6 +1,6 @@
 name: cfme
 help: Commit For Me - Generate commit messages for staged files using aichat
-version: 0.1.0
+version: 0.1.1
 
 environment_variables:
   - name: CFME_CONFIG_DIR
