@@ -12,6 +12,10 @@ using AI, prompt you to review and edit it, then commit it for you.
 
 ![cfme demo](./demo/demo.gif)
 
+> There is also a demo available showing how to use `cfme` from within
+> [Lazygit](https://github.com/jesseduffield/lazygit/).
+> Jump to the [Lazygit Integration](#lazygit) section below.
+
 ## Features ✨
 
 - **AI-Powered Commit Messages** - Leverages modern AI models
@@ -425,7 +429,9 @@ CFME_DEFAULT_PROMPT_VARIABLES_FILE_FETCH_URL
 
 [Lazygit](https://github.com/jesseduffield/lazygit) is awesome.
 But `cfme` allows you to be even lazier! You can use `cfme`
-from within Lazygit's TUI to generate commit messages.
+from within Lazygit's TUI to generate commit messages:
+
+![cfme lazygit demo](./demo/lazygit-demo.gif)
 
 Just add the following custom command to your Lazygit config file
 (e.g. `~/.config/lazygit/config.yml`):
