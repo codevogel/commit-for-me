@@ -45,7 +45,7 @@ print_if_not_silent "AI response received. Presenting options for selection..."
 
 # Parse AI response and let user select a commit message
 mapfile -t headers < <(extract_headers_from_response "$response")
-selected_header="$(pick_from_headers headers)"
+selected_header="$(pick_from_headers headers "$response")"
 selected_entry="$(select_entry "$selected_header" "$response")"
 
 # Build the commit message and open it in the user's editor for review/editing
