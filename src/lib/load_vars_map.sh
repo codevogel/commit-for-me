@@ -36,9 +36,9 @@ load_vars_map() {
   # Add defaults to the map
   referenced_map["<__GIT_DIFF__>"]="$(git diff --cached)"
 
-  referenced_map["<__RESPONSE_REQUIREMENTS__>"]="$(
+  referenced_map["<__RESPONSE_FORMAT_REQUIREMENTS__>"]="$(
     cat <<'EOF'
-**Requirements:**
+**Response Format Requirements:**
 
 - Each commit message MUST include a 'header'.
 - Optionally include 'body' and 'footer', ONLY if a 'header'

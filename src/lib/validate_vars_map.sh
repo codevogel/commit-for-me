@@ -17,7 +17,7 @@ function validate_vars_map() {
       continue
     fi
     if ! grep -q "$key" <<<"$prompt"; then
-      if [[ "$key" == "<__RESPONSE_REQUIREMENTS__>" || "$key" == "<__GIT_DIFF__>" ]]; then
+      if [[ "$key" == "<__RESPONSE_FORMAT_REQUIREMENTS__>" || "$key" == "<__GIT_DIFF__>" ]]; then
         # This key is mandatory
         echo "Error: key '$key' is essential for cfme to function, but not present in the prompt." >&2
         return 1

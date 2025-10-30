@@ -19,7 +19,7 @@ Describe 'render_prompt'
     It 'renders the prompt correctly with all variables replaced'
         local prompt_template="$(cat spec/samples/sample-prompt-complete.md)"
         declare -A vars_map
-        vars_map["<__RESPONSE_REQUIREMENTS__>"]="$(cat spec/samples/sample-response-requirements.md)"
+        vars_map["<__RESPONSE_FORMAT_REQUIREMENTS__>"]="$(cat spec/samples/sample-response-requirements.md)"
         vars_map["<__GIT_DIFF__>"]="SAMPLE_DIFF"
         vars_map["<__VAR1__>"]="VAL1"
         vars_map["<__VAR2__>"]="VAL2"
@@ -32,7 +32,7 @@ Describe 'render_prompt'
     It 'renders the prompt correctly with empty instructions'
         local prompt_template="$(cat spec/samples/sample-prompt-complete.md)"
         declare -A vars_map
-        vars_map["<__RESPONSE_REQUIREMENTS__>"]="$(cat spec/samples/sample-response-requirements.md)"
+        vars_map["<__RESPONSE_FORMAT_REQUIREMENTS__>"]="$(cat spec/samples/sample-response-requirements.md)"
         vars_map["<__GIT_DIFF__>"]="SAMPLE_DIFF"
         vars_map["<__VAR1__>"]="VAL1"
         vars_map["<__VAR2__>"]="VAL2"
