@@ -1,0 +1,9 @@
+vars:
+  - template_string: "<__PIRATE_EXPRESSIONS__>"
+    value: |
+      1. Avast!
+      2. Shiver me timbers!
+      3. Yo-ho-ho!
+    # Or use 'value_from' with one or more commands to fetch the value, e.g.:
+    value_from: |
+      curl -s https://pirate.com/pirate-expressions.txt | head -n 3
