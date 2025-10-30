@@ -28,7 +28,7 @@ Describe 'cfme'
     End
 
     Mock fzf
-        echo "header: 1 entry header"
+        echo "1 | 1 entry header"
     End
 
     Mock mock_editor
