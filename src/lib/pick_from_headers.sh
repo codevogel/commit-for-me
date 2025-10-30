@@ -26,9 +26,9 @@ pick_from_headers() {
   # Add a final marker to ensure the last message is captured correctly
   echo "=== END ===" >>"$temp_file"
 
-  selected_line=$(printf '%s\n' "${headers_ref[@]}" | sort -rn | nl -w1 -s' ' | fzf --ansi \
+  selected_line=$(printf '%s\n' "${headers_ref[@]}" | sort -rn | sed 's/^[0-9]* //' | nl -w1 -s' | ' | fzf --ansi \
     --prompt="Select commit message: " \
-    --preview "sed -n '/=== MESSAGE {1} ===/,/=== MESSAGE/p' '$temp_file' | head -n -1 | tail -n +2" \
+    --preview "num=\$(echo {} | grep -o '^[0-9]*'); sed -n \"/=== MESSAGE \$num ===/,/=== MESSAGE/p\" '$temp_file' | head -n -1 | tail -n +2" \
     --preview-window=wrap)
 
   local exit_code=$?
@@ -39,6 +39,6 @@ pick_from_headers() {
     return 1
   }
 
-  # Remove the line number and score prefix
-  echo "${selected_line#* }" | sed 's/^[0-9]* //'
+  # Remove the rank number and separator
+  echo "${selected_line}" | sed 's/^[0-9]* | //'
 }
