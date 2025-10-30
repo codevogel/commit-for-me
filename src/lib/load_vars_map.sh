@@ -36,9 +36,9 @@ load_vars_map() {
   # Add defaults to the map
   referenced_map["<__GIT_DIFF__>"]="$(git diff --cached)"
 
-  referenced_map["<__RESPONSE_REQUIREMENTS__>"]="$(
+  referenced_map["<__RESPONSE_FORMAT_REQUIREMENTS__>"]="$(
     cat <<'EOF'
-**Requirements:**
+**Response Format Requirements:**
 
 - Each commit message MUST include a 'header'.
 - Optionally include 'body' and 'footer', ONLY if a 'header'
@@ -48,7 +48,7 @@ load_vars_map() {
 
 ```yaml
 commitMessages:
-  - header: "<type>[optional scope]: <description>"
+  - header: "<required header>"
     body: "<optional body>"
     footer: "<optional footer>"
     score: <integer 0-100 representing confidence that this is the best commit message>
