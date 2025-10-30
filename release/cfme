@@ -59,7 +59,7 @@ root_command() {
 
   # Parse AI response and let user select a commit message
   mapfile -t headers < <(extract_headers_from_response "$response")
-  selected_header="$(pick_from_headers headers)"
+  selected_header="$(pick_from_headers headers "$response")"
   selected_entry="$(select_entry "$selected_header" "$response")"
 
   # Build the commit message and open it in the user's editor for review/editing
@@ -582,9 +582,9 @@ load_vars_map() {
   # Add defaults to the map
   referenced_map["<__GIT_DIFF__>"]="$(git diff --cached)"
 
-  referenced_map["<__RESPONSE_REQUIREMENTS__>"]="$(
+  referenced_map["<__RESPONSE_FORMAT_REQUIREMENTS__>"]="$(
     cat <<'EOF'
-**Requirements:**
+**Response Format Requirements:**
 
 - Each commit message MUST include a 'header'.
 - Optionally include 'body' and 'footer', ONLY if a 'header'
@@ -594,7 +594,7 @@ load_vars_map() {
 
 ```yaml
 commitMessages:
-  - header: "<type>[optional scope]: <description>"
+  - header: "<required header>"
     body: "<optional body>"
     footer: "<optional footer>"
     score: <integer 0-100 representing confidence that this is the best commit message>
@@ -623,6 +623,7 @@ EOF
 # src/lib/pick_from_headers.sh
 pick_from_headers() {
   local -n headers_ref=$1
+  local response="$2"
 
   # Quit if no headers are provided
   if [[ ${#headers_ref[@]} -eq 0 ]]; then
@@ -630,12 +631,39 @@ pick_from_headers() {
     return 1
   fi
 
-  selected_line=$(printf '%s\n' "${headers_ref[@]}" | sort -rn | fzf --ansi --prompt="Select commit message: " --preview "echo {}")
+  # Prerender all full messages to a temp file
+  local temp_file=$(mktemp)
+  local count=1 # Start at 1 to match nl numbering
+  while IFS= read -r header; do
+    local header_only="${header#* }" # Remove score prefix
+    echo "=== MESSAGE $count ===" >>"$temp_file"
+    echo "$response" | yq eval ".commitMessages[] | select(.header==\"$header_only\") | .header" - >>"$temp_file"
+    local body=$(echo "$response" | yq eval ".commitMessages[] | select(.header==\"$header_only\") | .body // \"\"" -)
+    local footer=$(echo "$response" | yq eval ".commitMessages[] | select(.header==\"$header_only\") | .footer // \"\"" -)
+    [[ -n "$body" && "$body" != "null" ]] && echo "" >>"$temp_file" && echo "$body" >>"$temp_file"
+    [[ -n "$footer" && "$footer" != "null" ]] && echo "" >>"$temp_file" && echo "$footer" >>"$temp_file"
+    echo "" >>"$temp_file"
+    ((count++))
+  done < <(printf '%s\n' "${headers_ref[@]}" | sort -rn)
+
+  # Add a final marker to ensure the last message is captured correctly
+  echo "=== END ===" >>"$temp_file"
+
+  selected_line=$(printf '%s\n' "${headers_ref[@]}" | sort -rn | sed 's/^[0-9]* //' | nl -w1 -s' | ' | fzf --ansi \
+    --prompt="Select commit message: " \
+    --preview "num=\$(echo {} | grep -o '^[0-9]*'); sed -n \"/=== MESSAGE \$num ===/,/=== MESSAGE/p\" '$temp_file' | head -n -1 | tail -n +2" \
+    --preview-window=wrap)
+
+  local exit_code=$?
+  rm -f "$temp_file"
+
   [[ -z "$selected_line" ]] && {
     echo "No selection, aborting." >&2
     return 1
   }
-  echo "${selected_line#* }"
+
+  # Remove the rank number and separator
+  echo "${selected_line}" | sed 's/^[0-9]* | //'
 }
 
 # src/lib/print_if_not_silent.sh
@@ -695,7 +723,7 @@ function validate_vars_map() {
       continue
     fi
     if ! grep -q "$key" <<<"$prompt"; then
-      if [[ "$key" == "<__RESPONSE_REQUIREMENTS__>" || "$key" == "<__GIT_DIFF__>" ]]; then
+      if [[ "$key" == "<__RESPONSE_FORMAT_REQUIREMENTS__>" || "$key" == "<__GIT_DIFF__>" ]]; then
         # This key is mandatory
         echo "Error: key '$key' is essential for cfme to function, but not present in the prompt." >&2
         return 1
@@ -901,7 +929,7 @@ before_hook() {
 
 # :command.initialize
 initialize() {
-  declare -g version="0.1.0"
+  declare -g version="0.1.1"
   set -e
 
   # :command.environment_variables_default
