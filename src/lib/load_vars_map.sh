@@ -48,7 +48,7 @@ load_vars_map() {
 
 ```yaml
 commitMessages:
-  - header: "<type>[optional scope]: <description>"
+  - header: "<required header>"
     body: "<optional body>"
     footer: "<optional footer>"
     score: <integer 0-100 representing confidence that this is the best commit message>

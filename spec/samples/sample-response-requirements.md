@@ -1,4 +1,4 @@
-**Requirements:**
+**Response Format Requirements:**
 
 - Each commit message MUST include a 'header'.
 - Optionally include 'body' and 'footer', ONLY if a 'header'
@@ -8,7 +8,7 @@
 
 ```yaml
 commitMessages:
-  - header: "<type>[optional scope]: <description>"
+  - header: "<required header>"
     body: "<optional body>"
     footer: "<optional footer>"
     score: <integer 0-100 representing confidence that this is the best commit message>
