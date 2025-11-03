@@ -484,7 +484,7 @@ Example contributions include:
 - Added a new feature or fixed a bug? Pull request welcome!
 - Want to improve the documentation? Contributions are welcome!
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on how to contribute.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information on how to contribute.
 
 ## License
 
