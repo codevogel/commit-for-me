@@ -54,7 +54,7 @@ using AI, prompt you to review and edit it, then commit it for you.
 2. **Install `cfme`**:
 
    ```bash
-   curl -sSL https://github.com/codevogel/cfme/releases/download/latest/cfme
+   curl -sSL https://github.com/codevogel/cfme/releases/latest/download/cfme
    chmod +x cfme
    sudo mv cfme /usr/local/bin # or any directory, as long as it's in your $PATH
    ```
